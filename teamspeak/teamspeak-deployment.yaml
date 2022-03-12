@@ -21,6 +21,3 @@ spec:
         name: teamspeak
         image: teamspeak
         imagePullPolicy: Always
-        volumeMounts:
-        - mountPath: /var/ts3server
-          name: teamspeak-vol
