@@ -18,6 +18,7 @@ spec:
       - env:
         - name: TS3SERVER_LICENSE
           value: accept
+        name: teamspeak
         image: teamspeak
         imagePullPolicy: Always
         volumeMounts:
