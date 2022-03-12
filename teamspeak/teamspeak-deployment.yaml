@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: teamspeak
+  name: teamspeak
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: teamspeak
+  template:
+    metadata:
+      labels:
+        app: teamspeak
+    spec:
+      containers:
+      - env:
+        - name: TS3SERVER_LICENSE
+          value: accept
+        image: teamspeak
+        imagePullPolicy: Always
+        volumeMounts:
+        - mountPath: /var/ts3server
+          name: teamspeak-vol
