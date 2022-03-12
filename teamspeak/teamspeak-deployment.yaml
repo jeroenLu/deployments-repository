@@ -21,3 +21,10 @@ spec:
         name: teamspeak
         image: teamspeak
         imagePullPolicy: Always
+        volumeMounts:
+        - mountPath: /var/ts3server
+          name: teamspeak-vol
+      volumes:
+      - name: teamspeak-vol
+        persistentVolumeClaim:
+          claimName: teamspeak-pvc
