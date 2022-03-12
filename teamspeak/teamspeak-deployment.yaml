@@ -28,3 +28,5 @@ spec:
       - name: teamspeak-vol
         persistentVolumeClaim:
           claimName: teamspeak-pvc
+      nodeSelector:
+        type: worker
