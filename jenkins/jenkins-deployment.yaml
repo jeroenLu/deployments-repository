@@ -19,8 +19,9 @@ spec:
         image: jenkins/jenkins:lts
         imagePullPolicy: Always
         volumeMounts:
-        - mountPath: /var/jenkins_home
+        - mountPath: /var
           name: jenkins-vol
+          subPath: jenkins_home
       volumes:
       - name: jenkins-vol
         persistentVolumeClaim:
