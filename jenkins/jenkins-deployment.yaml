@@ -18,10 +18,14 @@ spec:
       - name: jenkins
         image: jenkins/jenkins:lts
         imagePullPolicy: Always
+        securityContext:
+          allowPrivilegeEscalation: true
+          privileged: true
+          readOnlyRootFilesystem: false
+          runAsUser: 0
         volumeMounts:
-        - mountPath: /var
+        - mountPath: /var/jenkins_home
           name: jenkins-vol
-          subPath: jenkins_home
       volumes:
       - name: jenkins-vol
         persistentVolumeClaim:
