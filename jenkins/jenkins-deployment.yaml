@@ -15,7 +15,7 @@ spec:
         app: jenkins
     spec:
       containers:
-        name: jenkins
+      - name: jenkins
         image: jenkins/jenkins:lts
         imagePullPolicy: Always
         volumeMounts:
