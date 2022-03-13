@@ -15,20 +15,20 @@ spec:
         app: jenkins
      spec:
       containers:
-      - image: jenkins/jenkins:lts
+      - name: jenkins 
+        image: jenkins/jenkins:lts
         imagePullPolicy: Always
-        name: jenkins
+        volumeMounts:
+        - mountPath: /var/jenkins_home
+          name: jenkins-vol
         securityContext:
           allowPrivilegeEscalation: true
           privileged: true
           readOnlyRootFilesystem: false
-          runAsUser: 0
-        volumeMounts:
-        - mountPath: /var/jenkins_home
-          name: jenkins-vol
-    volumes:
-    - name: jenkins-vol
-      persistentVolumeClaim:
-        claimName: jenkins-pvc
-    nodeSelector:
-        type: worker
+          runAsUser: 0 
+      volumes:
+      - name: jenkins-vol
+        persistentVolumeClaim:
+          claimName: jenkins-pvc
+      nodeSelector:
+          type: worker
