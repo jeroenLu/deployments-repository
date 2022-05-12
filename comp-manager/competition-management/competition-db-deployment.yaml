@@ -1,9 +1,11 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: competition-db
   labels:
     app: competition-db
+    app.kubernetes.io/instance: competition-manager-competitions
+  name: competition-db
+  namespace: comp-manager
 spec:
   replicas: 1
   selector:
@@ -15,23 +17,26 @@ spec:
         app: competition-db
     spec:
       containers:
-      - image: postgres:14.2
-        imagePullPolicy: Always
-        name: competition-db
-        securityContext:
-          allowPrivilegeEscalation: true
-          privileged: true
-          readOnlyRootFilesystem: false
-          runAsUser: 0
-        envFrom:
-          - configMapRef: competition-db
-          - secretRef: competition-db
-        volumeMounts:
-        - name: comp-mgmt-competition-db-vol
-          mountPath: /var/lib/postgresql/data
-      volumes:
-      - name: competition-db-vol
-        persistentVolumeClaim:
-          claimName: competition-db-pvc
+        - image: 'postgres:14.2'
+          imagePullPolicy: Always
+          name: competition-db
+          securityContext:
+            allowPrivilegeEscalation: true
+            privileged: true
+            readOnlyRootFilesystem: false
+            runAsUser: 0
+          envFrom:
+            - configMapRef:
+                name: competition-db
+            - secretRef:
+                name: competition-db
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              subPath: postgres
+              name: competition-db-vol
       nodeSelector:
         nodeType: worker
+      volumes:
+        - name: competition-db-vol
+          persistentVolumeClaim:
+            claimName: competition-db-pvc
