@@ -2,7 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: jenkins
-  namespace: default 
+  labels:
+    app: jenkins
 spec:
   replicas: 1
   selector:
@@ -14,7 +15,7 @@ spec:
         app: jenkins
     spec:
       containers:
-      - image: jenkins/jenkins:lts
+      - image: jenkins/jenkins:lts-jdk11
         imagePullPolicy: Always
         name: jenkins
         securityContext:
