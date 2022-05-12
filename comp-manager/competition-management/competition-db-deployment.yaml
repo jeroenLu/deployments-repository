@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: competition-db
+  labels:
+    app: competition-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: competition-db
+  template:
+    metadata:
+      labels:
+        app: competition-db
+    spec:
+      containers:
+      - image: postgres:14.2
+        imagePullPolicy: Always
+        name: competition-db
+        securityContext:
+          allowPrivilegeEscalation: true
+          privileged: true
+          readOnlyRootFilesystem: false
+          runAsUser: 0
+        envFrom:
+          - confifMapRef: competition-db
+          - secretRef: competition-db
+        volumeMounts:
+        - name: comp-mgmt-competition-db-vol
+          mountPath: /var/lib/postgresql/data
+      volumes:
+      - name: competition-db-vol
+        persistentVolumeClaim:
+          claimName: competition-db-pvc
+      nodeSelector:
+        nodeType: worker
