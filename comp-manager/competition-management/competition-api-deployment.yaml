@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: competition-api
+    app.kubernetes.io/instance: competition-manager-competitions
+  name: competition-api
+  namespace: comp-manager
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: competition-api
+  template:
+    metadata:
+      labels:
+        app: competition-api
+    spec:
+      containers:
+        - image: 'jeroenluers/comp-manager_competitions:0.0.1'
+          imagePullPolicy: Always
+          name: competition-api
+          securityContext:
+            allowPrivilegeEscalation: true
+            privileged: true
+            readOnlyRootFilesystem: false
+            runAsUser: 0
+          envFrom:
+            - configMapRef:
+                name: competition-api
+            - secretRef:
+                name: competition-api
+      nodeSelector:
+        nodeType: worker
