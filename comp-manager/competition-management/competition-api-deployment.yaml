@@ -16,8 +16,22 @@ spec:
       labels:
         app: competition-api
     spec:
+      initContainers:
+        - name: competition-api-liquibase
+          image: 'jeroenluers/comp-manager_competitions:0.0.2'
+          command:
+            - "java"
+            - "-jar"
+            - "/app.jar"
+            - "dbinit"
+          envFrom:
+            - configMapRef:
+                name: competition-api
+            - secretRef:
+                name: competition-api
+
       containers:
-        - image: 'jeroenluers/comp-manager_competitions:0.0.1'
+        - image: 'jeroenluers/comp-manager_competitions:0.0.2'
           imagePullPolicy: Always
           name: competition-api
           securityContext:
