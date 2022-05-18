@@ -17,13 +17,9 @@ spec:
         app: competition-api
     spec:
       initContainers:
-        - name: competition-api-liquibase
-          image: 'jeroenluers/comp-manager_competitions:0.0.2'
-          command:
-            - "java"
-            - "-jar"
-            - "/app.jar"
-            - "dbinit"
+        - env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: dbinit
           envFrom:
             - configMapRef:
                 name: competition-api
