@@ -23,9 +23,15 @@ spec:
           privileged: true
           readOnlyRootFilesystem: false
           runAsUser: 0
-        volumeMounts:
-        - name: jenkins-vol 
-          mountPath: /var/jenkins_home  
+      volumeMounts:
+        - name: jenkins-vol
+          mountPath: /var/jenkins_home
+        - name: docker-sock
+          mountPath: /var/run/docker.sock
+          readOnly: false
+        - name: docker-directory
+          mountPath: "/var/lib/docker"
+          readOnly: false
       volumes:
       - name: jenkins-vol
         persistentVolumeClaim:
