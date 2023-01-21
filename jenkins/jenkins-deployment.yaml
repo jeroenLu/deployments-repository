@@ -26,21 +26,9 @@ spec:
           volumeMounts:
             - name: jenkins-vol
               mountPath: /var/jenkins_home
-            - name: docker-sock
-              mountPath: /var/run/docker.sock
-              readOnly: false
-            - name: docker-directory
-              mountPath: /var/lib/docker
-              readOnly: false
       volumes:
         - name: jenkins-vol
           persistentVolumeClaim:
             claimName: jenkins-pvc
-        - name: docker-sock
-          hostPath:
-            path: "/var/run/docker.sock"
-        - name: docker-directory
-          hostPath:
-            path: "/var/lib/docker"
       nodeSelector:
         nodeType: worker
