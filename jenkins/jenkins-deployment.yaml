@@ -15,26 +15,30 @@ spec:
         app: jenkins
     spec:
       containers:
-      - image: jenkins/jenkins:lts-jdk11
-        imagePullPolicy: Always
-        name: jenkins
-        securityContext:
-          allowPrivilegeEscalation: true
-          privileged: true
-          readOnlyRootFilesystem: false
-          runAsUser: 0
-        volumeMounts:
-          - name: jenkins-vol
-            mountPath: /var/jenkins_home
-          - name: docker-sock
-            mountPath: /var/run/docker.sock
-            readOnly: false
-          - name: docker-directory
-            mountPath: "/var/lib/docker"
-            readOnly: false
+        - image: jenkins/jenkins:lts-jdk11
+          imagePullPolicy: Always
+          name: jenkins
+          securityContext:
+            allowPrivilegeEscalation: true
+            privileged: true
+            readOnlyRootFilesystem: false
+            runAsUser: 0
+          volumeMounts:
+            - name: jenkins-vol
+              mountPath: /var/jenkins_home
+            - mountPath: /var/run/docker.sock
+              name: docker-sock
+              readOnly: false
+            - mountPath: /var/lib/docker
+              name: docker-directory
+              readOnly: false
       volumes:
-      - name: jenkins-vol
-        persistentVolumeClaim:
-          claimName: jenkins-pvc
+        - name: jenkins-vol
+          persistentVolumeClaim:
+            claimName: jenkins-pvc
+        - name: docker-sock
+          hostPath:
+            path: "/var/run/docker.sock"
+            type: File
       nodeSelector:
         nodeType: worker
